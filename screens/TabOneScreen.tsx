@@ -10,17 +10,24 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
+	const [data, setData] = useState();
+
+	// sorts the json file in spell level 0 to 9 and in alphabetical order and shows it on screen
 	function showSpellList() {
 		var byLevel = spellList.sort(
-			function(a:Number, b:Number) {
+			function(a, b) {
 				return a.level - b.level;
 			});
-		var byLeter = byLevel.sort();
+		var byLeter = spellList.sort(
+			function(a, b) {
+				return (a.name > b.name) ? 1 : -1;
+			});
 		var data = spellList.map((spell, index) => {
 			// console.log(spell.name);
 			return (
 				<View key={index}>
 					<Text style={styles.title}>{spell.name}</Text>
+					<Text style={styles.school}>{spell.school}</Text>
 					<View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 				</View>
 			);
@@ -48,6 +55,13 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		fontWeight: 'bold',
+	},
+	school: {
+		fontSize: 14,
+		backgroundColor: '#ccc',
+		width: 'fit-content',
+		padding: 3,
+		borderRadius: 5,
 	},
 	separator: {
 		marginVertical: 30,
